@@ -16,22 +16,59 @@
 
 package com.bobcat00.playtimescoreboard;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PlaytimeScoreboard extends JavaPlugin
 {
+    Playtime playtime;
+    
     @Override
     public void onEnable()
     {
         saveDefaultConfig();
         
-        Playtime playtime = new Playtime(this);
+        playtime = new Playtime(this);
     }
- 
+    
     @Override
     public void onDisable()
     {
         // HandlerList.unregisterAll(listeners);
     }
-
+    
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
+    {
+        if (args.length == 1 && args[0].equalsIgnoreCase("reload"))
+        {
+            // Reload config
+            reloadConfig();
+            // Recreate player map
+            playtime.initPlayerMap();
+            // Update scoreboard
+            playtime.update();
+            
+            sender.sendMessage("PlaytimeScoreboard reloaded.");
+            return true; // Normal return
+        }
+        return false;
+    }
+    
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args)
+    {
+        List<String> argList = new ArrayList<>();
+        if (args.length == 1)
+        {
+            argList.add("reload");
+            return argList.stream().filter(a -> a.startsWith(args[0])).collect(Collectors.toList());
+        }
+        return argList; // returns an empty list
+    }
 }

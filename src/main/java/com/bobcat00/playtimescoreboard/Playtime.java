@@ -48,19 +48,9 @@ public final class Playtime extends BukkitRunnable implements Listener
     {
         this.plugin = plugin;
         
-        // Get all players who have ever visited and save their names and playtimes
+        // Initialize playerMap which holds all the names and playtimes
         
-        final OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
-        for (OfflinePlayer player : players)
-        {
-            // Exclude banned players
-            if (!player.isBanned())
-            {
-                String name = player.getName();
-                int time = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / (60*20);
-                playerMap.put(name, time);
-            }
-        }
+        initPlayerMap();
         
         // Create scoreboard
         
@@ -85,6 +75,29 @@ public final class Playtime extends BukkitRunnable implements Listener
     
     // -------------------------------------------------------------------------
     
+    // Get all players who have ever visited and save their names and playtimes
+    
+    final void initPlayerMap()
+    {
+        // Remove old entries
+        playerMap.clear();
+        
+        // Get all the players
+        final OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
+        for (OfflinePlayer player : players)
+        {
+            // Exclude banned players
+            if (!player.isBanned())
+            {
+                String name = player.getName();
+                int time = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / (60*20);
+                playerMap.put(name, time);
+            }
+        }
+    }
+    
+    // -------------------------------------------------------------------------
+    
     // Periodic task to run updates
     
     @Override
@@ -97,7 +110,7 @@ public final class Playtime extends BukkitRunnable implements Listener
     
     // Update playtimes of online players and update scoreboard
     
-    private void update()
+    void update()
     {
         // Update map for online players
         
@@ -145,7 +158,7 @@ public final class Playtime extends BukkitRunnable implements Listener
     
     // -------------------------------------------------------------------------
     
-    // Send scoreboard to player
+    // Player join - Send scoreboard to player
     
     public void onPlayerJoin(PlayerJoinEvent e)
     {
@@ -162,7 +175,7 @@ public final class Playtime extends BukkitRunnable implements Listener
     
     // -------------------------------------------------------------------------
     
-    // Save updated time in map
+    // Player quit - Save updated playtime in map
     
     public void onPlayerQuit(PlayerQuitEvent e)
     {

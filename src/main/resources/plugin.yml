@@ -4,3 +4,14 @@ version: '${project.version}'
 author: Bobcat00
 description: Show playtime on the scoreboard
 api-version: '1.20'
+commands:
+  playtimescoreboard:
+    description: Reload PlaytimeScoreboard
+    aliases: ptsb
+    usage: "Usage: /playtimescoreboard reload"
+    permission: playtimescoreboard.reload
+    permission-message: You do not have permission for this command
+permissions:
+  playtimescoreboard.reload:
+    description: Reload PlaytimeScoreboard
+    default: op
