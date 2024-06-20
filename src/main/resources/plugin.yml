@@ -3,7 +3,7 @@ main: com.bobcat00.playtimescoreboard.PlaytimeScoreboard
 version: '${project.version}'
 author: Bobcat00
 description: Show playtime on the scoreboard
-api-version: '1.20'
+api-version: '1.21'
 commands:
   playtimescoreboard:
     description: Reload PlaytimeScoreboard
