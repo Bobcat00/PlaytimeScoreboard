@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bobcat00</groupId>
   <artifactId>PlaytimeScoreboard</artifactId>
-  <version>0.03-SNAPSHOT</version>
+  <version>0.03</version>
   <build>
     <resources>
       <resource>
