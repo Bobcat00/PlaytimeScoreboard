@@ -90,8 +90,11 @@ public final class Playtime extends BukkitRunnable implements Listener
             if (!player.isBanned())
             {
                 String name = player.getName();
-                int time = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / (60*20);
-                playerMap.put(name, time);
+                if (name != null)
+                {
+                    int time = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / (60*20);
+                    playerMap.put(name, time);
+                }
             }
         }
     }
